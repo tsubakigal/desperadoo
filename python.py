@@ -31,7 +31,7 @@ for i, s in enumerate(result, start=1):
     #__fastcall Forward() ==== @Forward{s}@0
     comment=f'#pragma comment(linker, "/EXPORT:{s}=@Forward{s}@0,@{i}")\n'
     declspec=f'extern "C" __declspec(naked) void __fastcall Forward{s}(){{ __asm jmp Origin{s} }}\n'
-    stat=f'static PVOID Origin{s};\n'
+    stat=f'static FARPROC Origin{s};\n'
     forward=f'Origin{s} = GetAddress("{s}");\n'
     pragma.append(comment)
     extern.append(declspec)

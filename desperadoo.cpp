@@ -56,23 +56,23 @@ inline namespace version {
 #pragma comment(linker, "/EXPORT:VerQueryValueW=@ForwardVerQueryValueW@0,@17")
 // clang-format on
 
-static PVOID OriginGetFileVersionInfoA;
-static PVOID OriginGetFileVersionInfoByHandle;
-static PVOID OriginGetFileVersionInfoExA;
-static PVOID OriginGetFileVersionInfoExW;
-static PVOID OriginGetFileVersionInfoSizeA;
-static PVOID OriginGetFileVersionInfoSizeExA;
-static PVOID OriginGetFileVersionInfoSizeExW;
-static PVOID OriginGetFileVersionInfoSizeW;
-static PVOID OriginGetFileVersionInfoW;
-static PVOID OriginVerFindFileA;
-static PVOID OriginVerFindFileW;
-static PVOID OriginVerInstallFileA;
-static PVOID OriginVerInstallFileW;
-static PVOID OriginVerLanguageNameA;
-static PVOID OriginVerLanguageNameW;
-static PVOID OriginVerQueryValueA;
-static PVOID OriginVerQueryValueW;
+static FARPROC OriginGetFileVersionInfoA;
+static FARPROC OriginGetFileVersionInfoByHandle;
+static FARPROC OriginGetFileVersionInfoExA;
+static FARPROC OriginGetFileVersionInfoExW;
+static FARPROC OriginGetFileVersionInfoSizeA;
+static FARPROC OriginGetFileVersionInfoSizeExA;
+static FARPROC OriginGetFileVersionInfoSizeExW;
+static FARPROC OriginGetFileVersionInfoSizeW;
+static FARPROC OriginGetFileVersionInfoW;
+static FARPROC OriginVerFindFileA;
+static FARPROC OriginVerFindFileW;
+static FARPROC OriginVerInstallFileA;
+static FARPROC OriginVerInstallFileW;
+static FARPROC OriginVerLanguageNameA;
+static FARPROC OriginVerLanguageNameW;
+static FARPROC OriginVerQueryValueA;
+static FARPROC OriginVerQueryValueW;
 
 extern "C" __declspec(naked) void __fastcall ForwardGetFileVersionInfoA() {
     __asm jmp OriginGetFileVersionInfoA
@@ -208,7 +208,7 @@ HookVirtualAlloc(LPVOID lpAddress, SIZE_T dwSize, DWORD flAllocationType,
 void load() {
     Attach(FORDETOUR(OriginVirtualAlloc, HookVirtualAlloc));
     wchar_t sysPath[MAX_PATH];
-    UINT len = GetSystemDirectoryW(sysPath, MAX_PATH);
+    GetSystemDirectoryW(sysPath, MAX_PATH);
     lstrcatW(sysPath, L"\\version.dll");
     hModule = LoadLibraryW(sysPath);
     if (hModule) {
