@@ -159,7 +159,7 @@ struct sarcheck {
 };
 
 // Original
-auto OriginVirtualAlloc = VirtualAlloc;
+auto *OriginVirtualAlloc = VirtualAlloc;
 // Hooked
 LPVOID
 WINAPI
@@ -180,7 +180,6 @@ HookVirtualAlloc(LPVOID lpAddress, SIZE_T dwSize, DWORD flAllocationType,
         if (!*ebp_now) {
             return result;
         }
-
         sarcheck *sar = *(sarcheck **)((*ebp_now) + 8);
         if (!sar) {
             return result;
